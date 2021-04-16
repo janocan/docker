@@ -20,8 +20,6 @@ services:
   scoring:
     image: "scoring-worker"
     environment: 
-     #- ORCH_URL="10.186.107.159"
-     #- AIPLATFORM_URL="10.186.104.76"
      - ORCH_URL="korch.default.svc.cluster.local"
      - AIPLATFORM_URL="aiaccel.default.svc.cluster.local"
     volumes:
