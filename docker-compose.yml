@@ -1,0 +1,34 @@
+version: "3.9"
+services:
+  scp:
+    image: "scp-worker"
+    volumes:
+      - parquet:/parquet
+    ports:
+      - "8000:8000"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t 
+  redis:
+    image: "redis"
+  rabbit:
+    image: "rabbitmq"
+    environment: 
+     - RABBITMQ_DEFAULT_USER="admin"
+     - RABBITMQ_DEFAULT_PASS="admin"
+    ports:
+      - "5672:5672"
+  scoring:
+    image: "scoring-worker"
+    environment: 
+     #- ORCH_URL="10.186.107.159"
+     #- AIPLATFORM_URL="10.186.104.76"
+     - ORCH_URL="korch.default.svc.cluster.local"
+     - AIPLATFORM_URL="aiaccel.default.svc.cluster.local"
+    volumes:
+      - parquet:/parquet
+    ports:
+      - "5000:5000"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t 
+volumes:
+  parquet:
